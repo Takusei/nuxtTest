@@ -1,6 +1,21 @@
 version: "3"
+
 services:
-  node:
-    build: .
+  nuxt:
+    build: ./app/
+    restart: always
     ports:
       - "3000:3000"
+    command:
+      "npm run start"
+
+  nginx:
+    build: ./nginx/
+    container_name: nginx
+    ports:
+      - '80:80'
+    privileged: true
+    volumes:
+      - ./frontend:/srv/frontend/app
+    command: /sbin/init
+    tty: true
